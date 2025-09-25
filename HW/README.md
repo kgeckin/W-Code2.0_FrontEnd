@@ -83,36 +83,6 @@ Varsayılan olarak `http://127.0.0.1:5000` üzerinde çalışır.
 
 ---
 
-## 📂 Dosya Yapısı
-
-```
-HW/
- ├── app.py               # Flask uygulaması
- ├── hash_creator.py      # Şifre hash üretici
- ├── requirements.txt
- ├── .env.example
- ├── data/
- │   ├── users.json
- │   ├── inventory.json
- │   └── contact_messages.json
- ├── templates/
- │   ├── login.html
- │   ├── register.html
- │   ├── forgot.html
- │   ├── reset.html
- │   ├── dashboard.html
- │   ├── inventory.html
- │   ├── admin.html
- │   ├── contact.html
- │   └── notifications.html
- ├── static/
- │   ├── styles.css
- │   └── app.js
- └── README.md
-```
-
----
-
 ## 🖥️ Kullanım
 
 * **/login** → Giriş ekranı
@@ -127,20 +97,13 @@ HW/
 
 ## 📸 Ekran Görüntüleri
 
-👉 Buraya proje ekran görüntüleri ekleyebilirsiniz:
+<div align="center">
 
-```
-![Login Page](screenshots/login.png)
-![Dashboard](screenshots/dashboard.png)
-![Mail Box](screenshots/formKutusu.png)
-![İletişim Formu](screenshots/iletisim.png)
-```
+| Login | Dashboard | Mail Box | İletişim |
+|-------|-----------|----------|----------|
+| <img src="screenshots/login.png" width="200"/> | <img src="screenshots/dashboard.png" width="200"/> | <img src="screenshots/formKutusu.png" width="200"/> | <img src="screenshots/iletisim.png" width="200"/> |
 
----
+</div>
 
-## 🛡️ Notlar
 
-* `SECRET_KEY` mutlaka güçlü ve benzersiz olmalıdır.
-* Admin şifreleri **hash** olarak `.env` dosyasında saklanır.
-* JSON dosyaları (`users.json`, `inventory.json`, `contact_messages.json`) varsayılan basit depolama için kullanılır.
-  İstenirse veritabanı entegrasyonu yapılabilir.
+
