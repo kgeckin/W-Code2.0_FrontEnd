@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block head_extra %}
+  <!-- keep charts tall enough for responsive canvas -->
+  <style>.chart-area{min-height:320px}</style>
+{% endblock %}
+
+{% block content %}
+  <h2>Dashboard</h2>
+
+  <!-- === Top stats ===================================================== -->
+  <div class="cards">
+    <div class="panel stat-card">
+      <h3>Toplam Cihaz</h3>
+      <p class="stat-big">{{ total }}</p>
+    </div>
+  </div>
+
+  <!-- === Charts (Chart.js renders via app.js -> renderCharts) ========= -->
+  <div class="grid-2">
+    <div class="panel chart-card">
+      <h3>Durum Dağılımı</h3>
+      <div class="chart-area">
+        <canvas id="statusChart" aria-label="Durum dağılımı"></canvas>
+      </div>
+    </div>
+
+    <div class="panel chart-card">
+      <h3>İşletim Sistemi Dağılımı</h3>
+      <div class="chart-area">
+        <canvas id="osChart" aria-label="İşletim sistemi dağılımı"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data blobs consumed by app.js (auto-calls window.renderCharts) -->
+  <script id="status-data" type="application/json">{{ by_status | tojson }}</script>
+  <script id="os-data"     type="application/json">{{ by_os     | tojson }}</script>
+{% endblock %}

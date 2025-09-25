@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="login-wrapper">
+  <form class="panel" method="post" action="/register">
+    <h2>Kayıt Ol</h2>
+    {% if error %}<p class="error">{{ error }}</p>{% endif %}
+    <label>Kullanıcı Adı
+      <input type="text" name="username" minlength="3" maxlength="32" pattern="[A-Za-z0-9_.-]+" required>
+    </label>
+    <label>Şifre
+      <input type="password" name="password" minlength="8" required>
+    </label>
+    <label>Şifre (Tekrar)
+      <input type="password" name="confirm" minlength="8" required>
+    </label>
+    {% if INVITE_CODE %}
+    <label>Davet Kodu
+      <input type="text" name="invite" required>
+    </label>
+    {% endif %}
+    <button type="submit">Hesap Oluştur</button>
+    <p class="msg">Zaten hesabın var mı? <a href="/login">Giriş yap</a></p>
+  </form>
+</section>
+{% endblock %}

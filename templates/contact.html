@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="login-wrapper">
+  <form class="panel contact-form" method="post" action="/contact">
+    <h2>İletişim</h2>
+
+    {% if sent %}
+      <p class="msg">Mesajınız alındı, teşekkürler! En kısa sürede dönüş yapacağız.</p>
+      <p class="msg"><a href="/login">Giriş sayfasına dön</a></p>
+    {% else %}
+      {% if errors %}
+        <ul class="error">
+          {% for e in errors %}<li>{{ e }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+
+      <div class="grid2">
+        <label>Ad Soyad
+          <input type="text" name="name" value="{{ name or '' }}" required>
+        </label>
+        <label>E‑posta
+          <input type="email" name="email" value="{{ email or '' }}" required>
+        </label>
+      </div>
+
+      <div class="grid2">
+        <label>Konu
+          <input type="text" name="subject" value="{{ subject or '' }}" required>
+        </label>
+        <label>Departman
+          <select name="department">
+            <option>IT Destek</option>
+            <option>İnsan Kaynakları</option>
+            <option>Muhasebe</option>
+            <option>Diğer</option>
+          </select>
+        </label>
+      </div>
+
+      <label>Mesajınız
+        <textarea name="message" rows="6" required>{{ message or '' }}</textarea>
+      </label>
+
+      <label class="checkbox">
+        <input type="checkbox" name="consent"> Kişisel verilerimin iletişim amacıyla işlenmesine onay veriyorum.
+      </label>
+
+      <button type="submit">Gönder</button>
+      <p class="msg"><a href="/login">Giriş sayfasına dön</a></p>
+    {% endif %}
+  </form>
+</section>
+{% endblock %}

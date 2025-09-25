@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="login-wrapper">
+  <form class="panel" method="post" action="/login">
+    <h2>Giriş Yap</h2>
+    {% if error %}<p class="error">{{ error }}</p>{% endif %}
+    <label>Kullanıcı Adı
+      <input type="text" name="username" required>
+    </label>
+    <label>Şifre
+      <input type="password" name="password" required>
+    </label>
+    <button type="submit">Giriş</button>
+    <p class="msg">
+      {% if REGISTER_OPEN %}<a href="/register">Kayıt ol</a>{% else %}Kayıt kapalı{% endif %}
+      • <a href="/forgot">Şifremi unuttum</a>
+      • <a href="/contact">İletişim</a>
+    </p>
+  </form>
+</section>
+{% endblock %}

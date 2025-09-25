@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Bildirimler</h2>
+
+<div class="panel" style="margin-bottom:12px; display:flex; justify-content:flex-end; gap:8px;">
+  <button id="markAllRead">Tümünü okundu işaretle</button>
+</div>
+
+<div class="table-wrap">
+  <table class="responsive" id="notifTable">
+    <thead>
+      <tr>
+        <th>Tarih</th>
+        <th>İsim</th>
+        <th>E-posta</th>
+        <th>Konu</th>
+        <th>Departman</th>
+        <th>Mesaj (özet)</th>
+        <th>Durum</th>
+        <th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in messages %}
+      <tr class="{% if not m.read %}notif-unread{% endif %}"
+          data-id="{{ m.id }}"
+          data-ts="{{ m.ts }}"
+          data-name="{{ m.name }}"
+          data-email="{{ m.email }}"
+          data-subject="{{ m.subject }}"
+          data-department="{{ m.department }}"
+          data-message="{{ m.message | e }}">  {# tam mesajı data-* ile saklıyoruz #}
+        <td>{{ m.ts }}</td>
+        <td>{{ m.name }}</td>
+        <td>{{ m.email }}</td>
+        <td>{{ m.subject }}</td>
+        <td>{{ m.department }}</td>
+        <td style="text-align:left">
+          {{ (m.message[:120] ~ ('…' if m.message|length > 120 else '')) }}
+        </td>
+        <td>{% if m.read %}Okundu{% else %}Yeni{% endif %}</td>
+        <td style="white-space:nowrap">
+          <button class="btnView">Görüntüle</button>
+          {% if m.read %}
+            <button class="btnUnread">Okunmadı</button>
+          {% else %}
+            <button class="btnRead">Okundu</button>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Mesaj Görüntüleme Dialogu -->
+<dialog id="notifView">
+  <form method="dialog" class="nt-modal">
+    <h3 id="nvSubject">Mesaj</h3>
+    <div id="nvMeta" class="small"></div>
+    <p id="nvBody" style="white-space:pre-wrap; margin-top:8px"></p>
+    <menu>
+      <button id="nvClose">Kapat</button>
+    </menu>
+  </form>
+</dialog>
+{% endblock %}

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>{{ title or 'NovaTech Internal Portal' }}</title>
+  <link rel="icon" type="image/png" href="/static/favicon.png">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- App CSS (override last) -->
+  <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <header class="app-header">NovaTech Solutions — Internal IT Portal</header>
+
+  {% if session.user %}
+  <nav class="app-nav">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/inventory">Envanter</a>
+    {% if session.user.role == 'admin' %}<a href="/admin">Kullanıcılar</a>{% endif %}
+    <span class="flex-1"></span>
+
+    <!-- Slide-over inbox trigger (bell + unread badge) -->
+    <button type="button" class="icon-btn" id="inboxBtn" title="Gelen kutusu">
+      <i class="bi bi-bell"></i>
+      <span class="nt-badge" id="inboxBadge">{{ notif_count }}</span>
+    </button>
+
+    <span class="who">{{ session.user.username }} ({{ session.user.role }})</span>
+    <a href="#" id="changePwdBtn">Şifre Değiştir</a>
+    <a href="/logout">Çıkış</a>
+  </nav>
+  {% endif %}
+
+  <main class="app-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="app-footer">© 2025 NovaTech Solutions | Internal Use Only | Build v3.2.0</footer>
+
+  <!-- Password change dialog (native <dialog>) -->
+  <dialog id="pwdModal">
+    <form method="dialog" class="nt-modal" id="pwdForm">
+      <h3>Şifre Değiştir</h3>
+      <label>Mevcut şifre
+        <input type="password" id="oldPwd" required>
+      </label>
+      <label>Yeni şifre
+        <input type="password" id="newPwd" minlength="8" required>
+      </label>
+      <p id="pwdMsg" class="msg"></p>
+      <menu>
+        <button id="pwdCancel">İptal</button>
+        <button id="pwdSave" value="confirm">Kaydet</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <!-- Slide-over Inbox (right drawer) -->
+  <div class="inbox-drawer" id="inboxDrawer" aria-hidden="true">
+    <div class="inbox-backdrop" id="inboxBackdrop"></div>
+    <aside class="inbox-panel" id="inboxPanel" role="dialog" aria-modal="true" aria-labelledby="inboxTitle">
+      <div class="inbox-head">
+        <strong id="inboxTitle" class="m-0">Gelen Kutusu</strong>
+        <button class="icon-btn" id="inboxClose" type="button" title="Kapat">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="inbox-body">
+        <ul class="inbox-list" id="inboxList"></ul>
+        <div class="text-center small text-muted py-2 d-none" id="inboxEmpty">
+          Gösterilecek mesaj yok.
+        </div>
+      </div>
+
+      <div class="inbox-foot">
+        <a class="btn btn-outline-secondary" id="inboxAll" href="/notifications">Tüm bildirimler</a>
+        <button class="btn btn-primary" id="inboxMarkAll" type="button">Tümünü okundu yap</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- JS libs then app.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

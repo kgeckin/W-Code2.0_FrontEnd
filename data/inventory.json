@@ -1,0 +1,42 @@
+[
+  {
+    "id": "A-1001",
+    "owner": "Ayşe Yılmaz",
+    "department": "Yazılım",
+    "model": "Dell Latitude 5520",
+    "ip": "192.168.1.15",
+    "os": "Windows 11 Pro",
+    "status": "Aktif",
+    "updated_at": "2025-09-08T15:37:23.227274+00:00"
+  },
+  {
+    "id": "A-1002",
+    "owner": "Mehmet Demir",
+    "department": "Siber Güvenlik",
+    "model": "Lenovo ThinkPad X1",
+    "ip": "192.168.1.22",
+    "os": "Ubuntu 22.04 LTS",
+    "status": "Aktif",
+    "updated_at": "2025-09-08T15:37:23.227274+00:00"
+  },
+  {
+    "id": "A-1003",
+    "owner": "Kardelen Geçkin",
+    "department": "Altyapı",
+    "model": "HP EliteBook 850",
+    "ip": "192.168.1.33",
+    "os": "Windows 10 Pro",
+    "status": "Bakımda",
+    "updated_at": "2025-09-08T15:37:23.227274+00:00"
+  },
+  {
+    "id": "A-1004",
+    "owner": "Ayşe Sevinç",
+    "department": "Siber Güvenlik",
+    "model": "Lenovo ThinkPad X1",
+    "ip": "192.168.1.23",
+    "os": "Ubuntu 22.04 LTS",
+    "status": "Aktif",
+    "updated_at": "2025-09-08T15:37:23.227274+00:00"
+  }
+]

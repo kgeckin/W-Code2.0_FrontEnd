@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="login-wrapper">
+  <form class="panel" method="post" action="/forgot">
+    <h2>Şifremi Unuttum</h2>
+    {% if not sent %}
+      <p class="msg">Kullanıcı adını gir; eğer eşleşen hesap varsa sıfırlama bağlantısı oluşturulacak.</p>
+      <label>Kullanıcı Adı
+        <input type="text" name="username" required>
+      </label>
+      <button type="submit">Bağlantı Oluştur</button>
+    {% else %}
+      <p class="msg">Eğer bu kullanıcı mevcutsa, şifre sıfırlama bağlantısı oluşturuldu.</p>
+      {% if dev and link %}
+        <p class="msg"><strong>Geliştirici modu:</strong> <a href="{{ link }}">Sıfırlama bağlantısı</a></p>
+      {% endif %}
+      <p class="msg"><a href="/login">Giriş sayfasına dön</a></p>
+    {% endif %}
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="login-wrapper">
+  <form class="panel" method="post" action="/reset">
+    <h2>Şifre Sıfırla</h2>
+    {% if invalid %}
+      <p class="error">Geçersiz veya süresi dolmuş bağlantı.</p>
+      <p class="msg"><a href="/forgot">Yeni bağlantı iste</a></p>
+    {% else %}
+      {% if error %}<p class="error">{{ error }}</p>{% endif %}
+      <input type="hidden" name="token" value="{{ token }}">
+      <label>Yeni Şifre
+        <input type="password" name="new" minlength="8" required>
+      </label>
+      <label>Yeni Şifre (Tekrar)
+        <input type="password" name="confirm" minlength="8" required>
+      </label>
+      <button type="submit">Şifreyi Güncelle</button>
+    {% endif %}
+  </form>
+</section>
+{% endblock %}

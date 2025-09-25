@@ -1,0 +1,338 @@
+/* =========================================================
+   NovaTech Internal Portal — Dark UI
+   Order: Tokens → Base → Layout → Components → Forms → Tables
+          → Accordions → Dialogs → Charts → Utilities
+   ========================================================= */
+
+/* ----------------------- 1) Design tokens & Bootstrap vars ----------------------- */
+:root{
+  color-scheme: dark;
+
+  /* Design tokens */
+  --bg:#0d1117;            /* page */
+  --card:#161b22;          /* cards/panels */
+  --muted:#8b949e;         /* secondary text */
+  --line:#30363d;          /* borders/grids */
+  --acc:#58a6ff;           /* accent (buttons/links) */
+  --text:#e6edf3;          /* body text */
+  --text-strong:#f0f6fc;   /* headings/emphasis */
+
+  /* Bootstrap 5 dark overrides */
+  --bs-body-bg: var(--bg);
+  --bs-body-color: var(--text);
+  --bs-border-color: var(--line);
+  --bs-card-bg: var(--card);
+  --bs-card-color: var(--text);
+  --bs-dropdown-bg: var(--card);
+  --bs-dropdown-link-color: var(--text);
+  --bs-dropdown-link-hover-bg: #21262d;
+  --bs-modal-bg: var(--card);
+  --bs-toast-bg: var(--card);
+  --bs-link-color: var(--acc);
+  --bs-link-hover-color: #79c0ff;
+}
+
+/* ----------------------- 2) Base ----------------------- */
+*{ box-sizing:border-box }
+html,body{ height:100% }
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:system-ui, Segoe UI, Roboto, Arial, sans-serif;
+}
+a{ color:var(--acc); text-decoration:none }
+a:hover{ color:#79c0ff }
+
+/* ----------------------- 3) Layout chrome ----------------------- */
+.app-header{
+  background:var(--card); color:var(--text);
+  padding:14px; text-align:center; font-weight:700;
+  border-bottom:1px solid var(--line);
+}
+.app-nav{
+  display:flex; gap:16px; align-items:center;
+  padding:10px 16px; background:#21262d; border-bottom:1px solid var(--line);
+}
+.app-nav a{ color:var(--text); font-weight:600 }
+.app-nav a:hover{ color:var(--acc) }
+.app-nav .flex-1{ flex:1 }
+.app-nav .who{ opacity:.8; margin-right:8px }
+.app-main{ padding:16px; min-height:calc(100vh - 140px) }
+.app-footer{
+  background:var(--card); color:var(--muted);
+  border-top:1px solid var(--line); padding:10px; text-align:center;
+}
+
+/* ----------------------- 4) Cards / Panels / Grids ----------------------- */
+.cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin:16px 0 }
+.card,.panel{
+  background:var(--card); border:1px solid var(--line);
+  border-radius:10px; padding:12px; color:var(--text);
+}
+.card h3,.panel h3{ color:var(--text-strong); margin:.2rem 0 .4rem }
+.grid-2{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px }
+
+/* ----------------------- 5) Forms (scoped + helpers) ----------------------- */
+.panel input,.panel select,.panel button,.panel textarea,
+.form-control,.form-select{
+  width:100%; padding:10px; margin:8px 0;
+  background:#21262d; border:1px solid var(--line); color:var(--text);
+  border-radius:8px;
+}
+.panel textarea{ resize:vertical }
+
+/* Primary action look (also for Bootstrap .btn-primary) */
+.panel button,.btn-primary{
+  background:var(--acc) !important; border:none !important; color:#081019 !important;
+  font-weight:700; cursor:pointer;
+}
+
+/* Checkboxes/radios — keep square and compact */
+.form-check-input{
+  width:1.1em !important; height:1.1em !important; padding:0 !important;
+  margin-top:.25rem; background:#21262d; border:1px solid var(--line);
+  border-radius:.25rem;
+}
+.form-check-input:checked{ background-color:var(--acc); border-color:var(--acc) }
+
+/* Focus ring for all controls */
+.form-control:focus,.form-select:focus,.form-check-input:focus{
+  border-color:var(--acc); box-shadow:0 0 0 .2rem rgba(88,166,255,.2);
+}
+
+/* Bootstrap helper (dark) */
+.bg-dark-subtle{ background:#1b2129 !important }
+
+/* Inline forms (toolbar/new record) */
+.checkbox{ display:flex; align-items:center; gap:8px; margin-top:6px }
+.grid2{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px }
+.inline-form{ display:flex; flex-wrap:wrap; gap:8px }
+.inline-form input,.inline-form select,.inline-form button{
+  padding:8px; border-radius:8px; border:1px solid var(--line);
+  background:#21262d; color:var(--text);
+}
+.inline-form button{ background:var(--acc); border:none; color:#081019; font-weight:700; cursor:pointer }
+
+/* Login layout + equal input spacing */
+.login-wrapper{ display:flex; justify-content:center; align-items:center; min-height:80vh; padding:16px }
+.login-wrapper .panel{ max-width:420px; width:100% }
+.login-wrapper .panel label{ display:block; margin:12px 0 6px; font-weight:600 }
+.login-wrapper .panel label input{ margin-top:6px; height:44px }
+
+/* Modal-specific helpers (Bootstrap modal content) */
+.modal .form-check{ display:flex; align-items:center; gap:10px; flex-wrap:wrap }
+.modal .form-check-input{ margin-top:.1rem }
+@media (max-width:480px){
+  .modal .form-check{ align-items:flex-start }
+  .modal .form-check-input{ margin-top:.35rem }
+}
+
+/* File input clarity */
+input[type="file"]{ color:var(--text) }
+input[type="file"]::file-selector-button{
+  background:var(--acc); color:#081019; border:0; border-radius:8px;
+  padding:8px 12px; margin-right:12px; font-weight:700; cursor:pointer;
+}
+
+/* ----------------------- 6) Tables ----------------------- */
+.table-wrap{ overflow:auto; max-width:100%; border:1px solid var(--line); border-radius:10px }
+.responsive{
+  width:100%; border-collapse:collapse; min-width:720px; table-layout:auto;
+}
+.responsive th,.responsive td{
+  color:var(--text) !important; background-color:transparent !important;
+  border:1px solid var(--line); padding:10px; text-align:center; vertical-align:middle;
+  word-break:break-word;
+}
+.responsive thead th{ background:var(--card) !important; color:var(--text-strong) }
+.responsive tbody tr{ background:var(--card) !important }
+.responsive tbody tr:nth-child(even),
+.responsive tbody tr:nth-child(odd){ background:var(--card) !important }
+.responsive tbody tr:hover{ background:#1f2632 !important }
+
+/* Force Bootstrap table variants to stay dark */
+.table,.table-striped tbody tr:nth-of-type(odd) > *,
+.table-hover tbody tr:hover > *{
+  background-color:transparent !important; color:var(--text) !important; border-color:var(--line) !important;
+}
+
+/* Row action buttons */
+.responsive td button,.responsive td .btn{
+  background:var(--acc); color:#081019; border:none;
+  padding:6px 10px; border-radius:8px; font-weight:700; cursor:pointer; margin-inline:4px;
+}
+.responsive td .btn.btn-outline-danger,.responsive td .btn.btn-danger{
+  background:#ff6b6b !important; color:#081019 !important; border:none !important;
+}
+
+/* Mobile: rows → cards + safe actions layout */
+@media (max-width:680px){
+  .responsive{ min-width:0 }
+  .responsive thead{ display:none }
+  .responsive tr{
+    display:grid; margin:8px; border:1px solid var(--line);
+    border-radius:10px; overflow:hidden;
+  }
+  .responsive td{
+    display:flex; justify-content:space-between; gap:12px;
+    border:none; border-bottom:1px solid var(--line);
+  }
+  .responsive td:last-child{
+    border-bottom:none; display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap;
+  }
+  .responsive td:last-child .btn{ flex:1 1 120px }
+  .responsive td::before{ content:attr(data-label); font-weight:700; color:var(--muted) }
+}
+
+/* ----------------------- 7) Native details/summary accordions ----------------------- */
+details.accordion{ margin-bottom:12px }
+details.accordion>summary{
+  cursor:pointer; list-style:none; font-weight:700; color:var(--text);
+  margin:-8px -8px 8px -8px; padding:8px; border-radius:8px;
+}
+details.accordion[open]>summary{ background:rgba(88,166,255,.08) }
+details.accordion>summary::-webkit-details-marker{ display:none }
+
+/* ----------------------- 8) Native <dialog> (password/edit/delete) ----------------------- */
+dialog{
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  border:1px solid var(--line); background:var(--card); color:var(--text);
+  border-radius:12px; width:min(560px,calc(100% - 32px)); padding:0;
+}
+dialog::backdrop{ background:rgba(0,0,0,.55) }
+
+/* Normalize the form placed inside <dialog> that uses class="modal" */
+dialog .modal{
+  position:static; display:flex; flex-direction:column; gap:8px;
+  min-width:280px; padding:16px; width:auto; height:auto; overflow:visible;
+}
+dialog .modal menu{ display:flex; gap:8px; justify-content:flex-end; padding:0; margin:0 }
+dialog .modal label{ display:block; margin:12px 0 6px; font-weight:600 }
+dialog .modal label input{
+  display:block; width:100%; height:44px; margin-top:6px;
+  background:#21262d; border:1px solid var(--line); color:var(--text); border-radius:8px;
+}
+/* Confirm buttons inside dialogs (and delete confirm id) */
+dialog .modal button[value="confirm"], #deleteConfirm{
+  background:var(--acc); border:none; color:#081019; font-weight:700;
+}
+
+/* If you rename dialog form to class="nt-modal" instead of "modal" */
+dialog .nt-modal{
+  position:static; display:flex; flex-direction:column; gap:8px; min-width:280px; padding:16px;
+}
+dialog .nt-modal menu{ display:flex; gap:8px; justify-content:flex-end; padding:0; margin:0 }
+
+/* ----------------------- 9) Charts ----------------------- */
+.chart-card{ display:grid; grid-template-rows:auto 1fr; gap:8px; color:var(--text) }
+.chart-card h3{ color:var(--text-strong) }
+.chart-area{ position:relative; min-height:320px }      /* ensures visible height */
+.chart-area canvas{ display:block; width:100% !important; height:100% !important }
+
+/* ----------------------- 10) Utilities ----------------------- */
+.nt-badge{ background:var(--acc); color:#081019; padding:2px 8px; border-radius:999px; font-size:.75rem; font-weight:700 }
+#dropzone.border-primary{ box-shadow:0 0 0 .25rem rgba(13,110,253,.25) }
+
+/* Stat card chip + big number */
+.stat-card{ text-align:left; padding:1.25rem 1rem }
+.stat-big{
+  display:inline-block; margin-top:.35rem; padding:.35rem .7rem;
+  border-radius:.75rem; background:rgba(88,166,255,.15);
+  font-size:2.6rem; font-weight:800; line-height:1;
+}
+
+/* Import helper note color */
+.required-note{ color:#ffd166 }
+
+/* Password dialog: equal-sized inputs inside <dialog class="nt-modal"> */
+dialog .nt-modal label{
+  display:block;
+  margin:12px 0 6px;
+  font-weight:600;
+}
+
+dialog .nt-modal label input{
+  display:block;
+  width:100%;
+  height:44px;
+  margin-top:6px;
+  background:#21262d;
+  border:1px solid var(--line);
+  color:var(--text);
+  border-radius:8px;
+}
+
+/* ===================== Dashboard compact tweaks ===================== */
+
+/* Cards & gaps */
+.cards{ gap:12px; margin:8px 0 }
+.grid-2{ gap:12px }
+
+/* Stat card */
+.stat-card{ padding:.9rem .9rem }
+.stat-card h3{ margin:0 0 .35rem }
+.stat-big{
+  font-size:2rem;               /* 2.6rem -> 2rem */
+  padding:.25rem .55rem;         /* daha az dolgu */
+  border-radius:.6rem;
+}
+
+/* Charts */
+.chart-card{ padding:10px }
+.chart-area{ min-height:260px }  /* 320 -> 260 */
+@media (max-width:992px){ .chart-area{ min-height:220px } }
+@media (max-width:680px){ .chart-area{ min-height:200px } }
+
+.panel.cta{ padding:10px }
+.panel.cta h3{ margin:0; font-size:1.05rem }
+.panel.cta .small{ opacity:.75 }
+.panel.cta .nt-badge{ transform:translateY(-1px) }
+
+
+/* Icon button (navbar) */
+.icon-btn{
+  background:transparent;border:0;color:var(--text);
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px;border-radius:10px;cursor:pointer
+}
+.icon-btn:hover{ background:#21262d }
+.icon-btn .nt-badge{ margin-left:4px }
+
+/* Slide-over inbox */
+.inbox-drawer{ position:fixed; inset:0; z-index:1090; pointer-events:none }
+.inbox-drawer.open{ pointer-events:auto }
+.inbox-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.45); opacity:0; transition:opacity .2s }
+.inbox-drawer.open .inbox-backdrop{ opacity:1 }
+.inbox-panel{
+  position:absolute; top:0; right:0; height:100%; width:min(420px,100%);
+  background:var(--card); border-left:1px solid var(--line);
+  transform:translateX(100%); transition:transform .25s;
+  display:grid; grid-template-rows:auto 1fr auto
+}
+.inbox-drawer.open .inbox-panel{ transform:translateX(0) }
+.inbox-head{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--line) }
+.inbox-body{ overflow:auto; padding:8px 0 }
+.inbox-foot{ display:flex; gap:8px; justify-content:flex-end; padding:10px; border-top:1px solid var(--line) }
+
+.inbox-list{ list-style:none; margin:0; padding:0 }
+.inbox-item{ display:flex; gap:10px; align-items:flex-start; padding:10px 14px; border-bottom:1px solid var(--line); cursor:pointer }
+.inbox-item:hover{ background:#1b2129 }
+.inbox-dot{ width:8px; height:8px; border-radius:50%; background:#7ee787; margin-top:.55rem; flex:0 0 auto }
+.inbox-item.read .inbox-dot{ background:#495057 }
+.inbox-title{ font-weight:700; color:var(--text-strong); margin:0 }
+.inbox-meta{ font-size:.8rem; color:var(--muted) }
+/* Truncate to 2 lines (modern + WebKit fallback) */
+.inbox-text{
+  margin:.2rem 0 0;
+  color:var(--text);
+  opacity:.9;
+
+  /* Modern spec */
+  line-clamp: 2;
+
+  /* WebKit fallback (Chrome/Safari/Edge today) */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  overflow: hidden;
+}

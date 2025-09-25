@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Bilgisayar Envanteri</h2>
+
+<!-- Toolbar -->
+<div class="card mb-3">
+  <div class="card-body d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex gap-2">
+      <!-- Open Import Modal -->
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importModal">
+        <i class="bi bi-cloud-upload"></i> İçe Aktar
+      </button>
+
+      <!-- Export menu -->
+      <div class="btn-group">
+        <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+          <i class="bi bi-download"></i> Dışa Aktar
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="/api/inventory/export.csv">CSV</a></li>
+          <li><a class="dropdown-item" href="/api/inventory/export.xlsx">Excel (XLSX)</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li class="dropdown-header">Örnek Dosyalar</li>
+          <li><a class="dropdown-item" href="/api/inventory/sample.csv">Örnek CSV</a></li>
+          <li><a class="dropdown-item" href="/api/inventory/sample.xlsx">Örnek XLSX</a></li>
+        </ul>
+      </div>
+    </div>
+
+    {# Note: "Required columns" text moved into the Import modal #}
+  </div>
+</div>
+
+<!-- Import Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content" id="importForm" enctype="multipart/form-data">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-cloud-upload"></i> Envanter İçe Aktar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- File picker with drag & drop helper -->
+        <div class="mb-3">
+          <label class="form-label">Dosya (CSV / XLSX)</label>
+
+          <div id="dropzone" class="border rounded p-4 text-center bg-dark-subtle"
+               style="border-style: dashed;">
+            <div class="fw-semibold mb-1">Dosyayı sürükleyip bırakın</div>
+            <div class="text-muted small mb-2">veya</div>
+            <input type="file" class="form-control" name="file" id="importFile" accept=".csv,.xlsx" required>
+          </div>
+
+          <!-- Required columns note (moved from toolbar) -->
+          <div class="mt-2 small required-note">
+            Gerekli sütunlar: <code>id</code>, <code>owner</code>, <code>department</code>, <code>model</code>,
+            <code>ip</code>, <code>os</code>, <code>status</code>
+          </div>
+        </div>
+
+        <!-- Import options -->
+        <div class="row g-2">
+          <div class="col-12 col-md-6">
+            <label class="form-label">İşlem Modu</label>
+            <select class="form-select" name="mode" id="importMode">
+              <option value="upsert">Ekle/Güncelle (ID’ye göre)</option>
+              <option value="replace">Tamamen değiştir</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-6 d-flex align-items-end">
+            <!-- Replace confirmation -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="confirmBigChange">
+              <label class="form-check-label small" for="confirmBigChange">
+                Replace için onaylıyorum
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress bar (shown during upload) -->
+        <div class="progress mt-3 d-none" id="importProgress">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+        </div>
+
+        <!-- Status message area (success / error) -->
+        <div class="alert mt-3 d-none" id="importMsg"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link" data-bs-dismiss="modal">Vazgeç</button>
+        <button type="submit" class="btn btn-primary">Yükle</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast (top-right) -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1080">
+  <div id="toast" class="toast align-items-center text-bg-dark border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body" id="toastBody">İşlem tamamlandı</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<!-- New record form (collapsible) -->
+<details class="accordion panel" id="addSection">
+  <summary>➕ Yeni Kayıt Ekle</summary>
+  <form id="addForm" class="inline-form">
+    <input name="id" placeholder="Asset ID" required>
+    <input name="owner" placeholder="Kullanıcı" required>
+    <input name="department" placeholder="Departman" required>
+    <input name="model" placeholder="Model" required>
+    <input name="ip" placeholder="IP" required>
+    <input name="os" placeholder="OS" required>
+    <select name="status">
+      <option>Aktif</option>
+      <option>Bakımda</option>
+      <option>Pasif</option>
+    </select>
+    <button type="submit">Ekle</button>
+  </form>
+</details>
+
+<!-- Inventory table -->
+<div class="table-wrap">
+  <table class="responsive" id="invTable">
+    <thead>
+      <tr>
+        <th>Asset ID</th>
+        <th>Kullanıcı</th>
+        <th>Departman</th>
+        <th>Model</th>
+        <th>IP</th>
+        <th>OS</th>
+        <th>Durum</th>
+        <th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- Edit dialog (native <dialog>) -->
+<dialog id="editModal">
+  <form method="dialog" class="modal" id="editForm">
+    <h3>Kayıt Düzenle</h3>
+    <input id="edit-id" placeholder="Asset ID" required readonly>
+    <input id="edit-owner" placeholder="Kullanıcı" required>
+    <input id="edit-department" placeholder="Departman" required>
+    <input id="edit-model" placeholder="Model" required>
+    <input id="edit-ip" placeholder="IP" required>
+    <input id="edit-os" placeholder="OS" required>
+    <select id="edit-status">
+      <option>Aktif</option>
+      <option>Bakımda</option>
+      <option>Pasif</option>
+    </select>
+    <menu>
+      <button id="editCancel">Vazgeç</button>
+      <button id="editSave" value="confirm">Kaydet</button>
+    </menu>
+    <p class="msg" id="editMsg"></p>
+  </form>
+</dialog>
+
+<!-- Delete dialog (native <dialog>) -->
+<dialog id="deleteModal">
+  <form method="dialog" class="modal" id="deleteForm">
+    <h3>Kaydı Sil</h3>
+    <p id="deleteText" class="msg"></p>
+    <menu>
+      <button id="deleteCancel">Vazgeç</button>
+      <button id="deleteConfirm" value="confirm">Sil</button>
+    </menu>
+  </form>
+</dialog>
+{% endblock %}
