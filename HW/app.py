@@ -335,7 +335,6 @@ def forgot_submit():
         write_tokens(toks)
         if RESET_DEV_SHOW:
             reset_link = url_for("reset_page", token=token, _external=True)
-            print("[DEV] Password reset link:", reset_link)
     return render_template("forgot.html", sent=True, dev=RESET_DEV_SHOW, link=reset_link)
 
 @app.get("/reset")
@@ -937,5 +936,5 @@ def add_security_headers(resp):
 if __name__ == "__main__":
     host = os.getenv("FLASK_HOST", "127.0.0.1")
     port = int(os.getenv("FLASK_PORT", "5000"))
-    debug = os.getenv("FLASK_DEBUG", "true").lower() == "true"
+    debug = os.getenv("FLASK_DEBUG", "false").lower() == "true"
     app.run(host=host, port=port, debug=debug)

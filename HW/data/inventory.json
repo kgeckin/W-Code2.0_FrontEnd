@@ -1,42 +1,32 @@
 [
   {
     "id": "A-1001",
-    "owner": "Ayşe Yılmaz",
-    "department": "Yazılım",
-    "model": "Dell Latitude 5520",
-    "ip": "192.168.1.15",
-    "os": "Windows 11 Pro",
+    "owner": "Demo User 01",
+    "department": "IT Operations",
+    "model": "Sample Laptop A",
+    "ip": "192.0.2.10",
+    "os": "Windows 11",
     "status": "Aktif",
-    "updated_at": "2025-09-08T15:37:23.227274+00:00"
+    "updated_at": "2025-09-08T15:37:23+00:00"
   },
   {
     "id": "A-1002",
-    "owner": "Mehmet Demir",
-    "department": "Siber Güvenlik",
-    "model": "Lenovo ThinkPad X1",
-    "ip": "192.168.1.22",
-    "os": "Ubuntu 22.04 LTS",
+    "owner": "Demo User 02",
+    "department": "Security",
+    "model": "Sample Laptop B",
+    "ip": "192.0.2.11",
+    "os": "Ubuntu 22.04",
     "status": "Aktif",
-    "updated_at": "2025-09-08T15:37:23.227274+00:00"
+    "updated_at": "2025-09-08T15:37:23+00:00"
   },
   {
     "id": "A-1003",
-    "owner": "Kardelen Geçkin",
-    "department": "Altyapı",
-    "model": "HP EliteBook 850",
-    "ip": "192.168.1.33",
-    "os": "Windows 10 Pro",
+    "owner": "Demo User 03",
+    "department": "Infrastructure",
+    "model": "Sample Workstation",
+    "ip": "192.0.2.12",
+    "os": "Windows 11",
     "status": "Bakımda",
-    "updated_at": "2025-09-08T15:37:23.227274+00:00"
-  },
-  {
-    "id": "A-1004",
-    "owner": "Ayşe Sevinç",
-    "department": "Siber Güvenlik",
-    "model": "Lenovo ThinkPad X1",
-    "ip": "192.168.1.23",
-    "os": "Ubuntu 22.04 LTS",
-    "status": "Aktif",
-    "updated_at": "2025-09-08T15:37:23.227274+00:00"
+    "updated_at": "2025-09-08T15:37:23+00:00"
   }
 ]
