@@ -78,9 +78,17 @@ HW/
 
 ## Validation
 
-The repository currently has no established automated test suite for this
-application. Validate login, permission boundaries, inventory operations and
-import/export behaviors with a local test environment and synthetic records.
+A small smoke test suite checks login page availability, unauthenticated access
+boundaries and configuration defaults. Run it after installing development
+dependencies:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pytest -q tests
+```
+
+Full login flows, inventory operations and imports still require manual local
+validation with synthetic records. Automated end to end coverage is incomplete.
 
 ## Architecture & decisions
 
